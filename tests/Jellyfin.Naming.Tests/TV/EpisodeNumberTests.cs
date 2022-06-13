@@ -77,6 +77,14 @@ namespace Jellyfin.Naming.Tests.TV
         [InlineData("Season 3/The Series S3 E9 - The title.avi", 9)]
         [InlineData("Season 3/S003 E009.avi", 9)]
         [InlineData("Season 3/Season 3 Episode 9.avi", 9)]
+        [InlineData("Season 2/[foo] seriesname 03 1080p.mkv", 3)]
+        [InlineData("Season 2/[foo] seriesname 03 [HEVC-10bit].mkv", 3)]
+        [InlineData("Season 2/[foo] seriesname 03 [Ma10p-720p].mkv", 3)]
+        [InlineData("Season 2/[foo] seriesname 03 [Hi10p-1080i].mkv", 3)]
+        [InlineData("Season 2/[foo] seriesname 03 [HDR-4k].mkv", 3)]
+        [InlineData("Season 2/[foo] seriesname 03.mkv", 3)]
+        [InlineData("Season 4/[foo] seriesname Volume 4 [S4E03v2].mkv", 3)]
+        [InlineData("Season 2/[foo] seriesname 第01話.mkv", 1)]
 
         // [InlineData("Case Closed (1996-2007)/Case Closed - 317.mkv", 317)] // triple digit episode number
         // TODO: [InlineData("Season 2/16 12 Some Title.avi", 16)]
