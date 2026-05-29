@@ -373,7 +373,7 @@ namespace Emby.Naming.Common
 
                 // Not a Kodi rule as well, but below rule also causes false positives for triple-digit episode names
                 // [bar] Foo - 1 [baz] special case of below expression to prevent false positives with digits in the series name
-                new EpisodeExpression(@".*[\\\/]?.*?(\[.*?\])+.*?(?<seriesname>[-\w\s]+?)[\s_]*-[\s_]*(?<epnumber>[0-9]+).*$")
+                new EpisodeExpression(@".*[\\\/]?.*?(\[.*?\])+.*?(?<seriesname>[-\w\s]+?)[\s_]*-[\s_]*(?<epnumber>[0-9]+)(?!(?:\d|[Kk]|[Ii]|[Pp]|bit)).*$")
                 {
                     IsNamed = true
                 },
@@ -468,6 +468,26 @@ namespace Emby.Naming.Common
                 // Series and season only expression
                 // "the show S01", "the show season 1"
                 new EpisodeExpression(@"(.*(\\|\/))*(?<seriesname>.+)[\. _\-]+[sS](eason)?[\. _\-]*(?<seasonnumber>[0-9]+)")
+                {
+                    IsNamed = true
+                },
+
+                // Custom anime style expression
+                // foo[S04E03v2]
+                // new EpisodeExpression(@"[^\\/]*?(?:\[)+(?:(?:[Ss]_?)([0-9]+)(?:_?))?(?:[Ee][Pp]?_?)?([0-9]+)(?:_?[vV][0-9])?(?:\])+([^\\/]*)$"),
+                new EpisodeExpression(@".*[\\/](?<seriesname>.*?)\s*\[[Ss]_?(?<seasonnumber>[0-9]+)_?[Ee][Pp]?_?(?<epnumber>[0-9]+)(?:_?[vV][0-9]+)?\][^\\/]*$")
+                {
+                    IsNamed = true
+                },
+                // 第01話, 第01话, 第01集
+                // new EpisodeExpression(@"[^\\/]*?()(?:第)+([0-9]+)(?:話|话|集)+([^\\/]*)$"),
+                new EpisodeExpression(@".*[\\/](?<seriesname>.*?)\s*第(?<epnumber>[0-9]+)(?:話|话|集)[^\\/]*$")
+                {
+                    IsNamed = true
+                },
+                // foo 01.mp4, foo 01 720p.mp4
+                // new EpisodeExpression(@"[^\\/]*?()(?:\s)+([0-9]+)(?:(?:[vV][0-9])?\s|\.)+([^\\/]*)$"),
+                new EpisodeExpression(@".*[\\/](?<seriesname>.+?)\s+(?<epnumber>[0-9]{1,3})(?:[vV][0-9]+)?(?:\s+(?:\[[^\]]+\]|(?:480|576|720|1080|2160)[pi]|4k|8k|UHD|HD|SD))*\.\w+$")
                 {
                     IsNamed = true
                 },
